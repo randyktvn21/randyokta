@@ -1,0 +1,191 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.6016082350462748 0.5607930776023763 0.5688397451284162 2.1454729199907163
+  position 0.06597278770302333 -0.014829097918623278 3.432369832656802
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  floorSize 3 3
+  floorAppearance PBRAppearance {
+    roughness 1
+    metalness 0
+  }
+}
+Solid {
+  translation 0 0 0.0005
+  children [
+    Shape {
+      appearance DEF LINE_APP PBRAppearance {
+        baseColor 0 0 0
+        roughness 1
+        metalness 0
+      }
+      geometry DEF LINE_BOX Box {
+        size 1.2 0.04 0.001
+      }
+    }
+  ]
+  name "line1"
+  boundingObject Box {
+    size 1.2 0.04 0.001
+  }
+}
+Solid {
+  translation 0.58 0.58 0.0005
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance USE LINE_APP
+      geometry USE LINE_BOX
+    }
+  ]
+  name "line2"
+  boundingObject Box {
+    size 1.2 0.04 0.001
+  }
+}
+Solid {
+  translation 0 1.16 0.0005
+  children [
+    Shape {
+      appearance USE LINE_APP
+      geometry USE LINE_BOX
+    }
+  ]
+  name "line3"
+  boundingObject Box {
+    size 1.2 0.04 0.001
+  }
+}
+Solid {
+  translation -0.58 0.58 0.0005
+  rotation 0 0 1 1.5708
+  children [
+    Shape {
+      appearance USE LINE_APP
+      geometry USE LINE_BOX
+    }
+  ]
+  name "line4"
+  boundingObject Box {
+    size 1.2 0.04 0.001
+  }
+}
+Robot {
+  translation 0 0 0.026
+  rotation 0 0 1 -1.5708
+  children [
+    Compass {
+    }
+    Transform {
+      scale 0.001 0.001 0.001
+      children [
+        CadShape {
+          url [
+            "tinker.obj"
+          ]
+        }
+      ]
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1747.6172298879185
+        anchor -0.06 -0.04 0
+      }
+      device [
+        RotationalMotor {
+          name "left_motor"
+        }
+      ]
+      endPoint Solid {
+        translation -0.06 -0.04 0
+        rotation 0.3959806684300609 0.8284910793321468 0.39598212295094426 1.7578487854705298
+        children [
+          Shape {
+            appearance DEF WHEEL_APP PBRAppearance {
+              baseColor 0.1 0.1 0.1
+              roughness 1
+              metalness 0
+            }
+            geometry DEF WHEEL_GEOM Cylinder {
+              height 0.02
+              radius 0.025
+            }
+          }
+        ]
+        name "left_wheel"
+        boundingObject USE WHEEL_GEOM
+        physics Physics {
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 1514.9991870168064
+        anchor 0.06 -0.04 0
+      }
+      device [
+        RotationalMotor {
+          name "right_motor"
+        }
+      ]
+      endPoint Solid {
+        translation 0.06 -0.04 0
+        rotation -0.3445155618030333 -0.8732795562678124 -0.34451682728167693 4.577298529491699
+        children [
+          Shape {
+            appearance USE WHEEL_APP
+            geometry USE WHEEL_GEOM
+          }
+        ]
+        name "right_wheel"
+        boundingObject USE WHEEL_GEOM
+        physics Physics {
+        }
+      }
+    }
+    Solid {
+      translation 0 0.08 -0.014
+      children [
+        Shape {
+          appearance USE WHEEL_APP
+          geometry DEF CASTER_GEOM Sphere {
+            radius 0.01
+          }
+        }
+      ]
+      name "caster"
+      boundingObject USE CASTER_GEOM
+      physics Physics {
+      }
+    }
+    DistanceSensor {
+      translation -0.035 0.09 0.015
+      rotation 0 1 0 1.5708
+      name "ds_left"
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.035 0.09 0.015
+      rotation 0 1 0 1.5708
+      name "ds_right"
+      type "infra-red"
+    }
+  ]
+  boundingObject Box {
+    size 0.1 0.18 0.03
+  }
+  physics Physics {
+  }
+  controller "line_follower_ctrl"
+}
